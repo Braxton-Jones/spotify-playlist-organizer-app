@@ -1,0 +1,42 @@
+.home-page{
+    .relevant-info-section{
+            width: 100%;
+            background: linear-gradient(.10turn, #285e8e, #5d5293, #86297d);
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        .username-wrapper{
+            display: flex;
+            width: fit-content;
+            padding: 10px 5px;
+            align-items: center;
+            gap: 10px;
+            background-color: hsla(210, 10%, 4%, 0.05);
+            border-radius: 10px;
+            .display-picture{
+                width: 30px;
+                height: 30px;
+                border-radius: 5px;
+            }
+            .display-name{
+                font-size: 22px;
+                margin-top: 10px;
+            }
+        }
+        .info-title{
+            font-size: 50px;
+            font-weight: 500;
+            text-align: right;
+            padding-right: 30px ;
+        }
+          
+    }
+    .playlists-wrapper{
+        margin-top:  50px;
+        margin-inline: 15px;
+    }
+
+
+    
+}
