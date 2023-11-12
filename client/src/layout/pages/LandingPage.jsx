@@ -1,6 +1,8 @@
 import { motion } from "framer-motion"
 import Typewriter from 'typewriter-effect';
 export default function LandingPage(){
+
+
     const gradientVariants = {
         animate: {
           background: [
@@ -39,9 +41,11 @@ export default function LandingPage(){
               }}/>
             </motion.p>
 
-            <motion.button
+            <motion.a
             whileHover={{ scale: 1.08, backgroundColor: "#EBEBEB" }}
-            className="sign-in_btn">Sign In</motion.button>
+            className="sign-in_btn"
+            href="http://localhost:8888/login"
+            >Sign In</motion.a>
 
             <motion.div
              animate={{
