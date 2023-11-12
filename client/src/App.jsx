@@ -10,6 +10,7 @@ import {
   Route
 } from "react-router-dom"
 import ErrorPage from "./layout/pages/ErrorPage";
+import { LikedSongsContextProvider } from "./layout/AppContext";
 
 
 const router = createBrowserRouter(
@@ -38,7 +39,7 @@ export default function App() {
     setToken(accessToken);
   }, []);
 
-  return token ? <RouterProvider router={router} /> : <LandingPage />
+  return token ? <LikedSongsContextProvider><RouterProvider router={router} /></LikedSongsContextProvider> : <LandingPage />
 }
 
 
