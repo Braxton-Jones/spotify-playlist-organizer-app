@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { getUserSavedTracks } from '../api_endpoints';
-import { accessToken } from '../api_auth';
+import React, { createContext, useState, useEffect } from "react";
+import { getUserSavedTracks } from "../api_endpoints";
+import { accessToken } from "../api_auth";
 
 const LikedSongs = createContext();
 
@@ -12,12 +12,12 @@ const LikedSongsContextProvider = ({ children }) => {
       const response = await getUserSavedTracks(accessToken);
       setLikedSongs(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchData(); 
+    fetchData();
   }, []);
 
   return (
