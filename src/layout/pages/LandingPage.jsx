@@ -3,22 +3,6 @@ import Typewriter from 'typewriter-effect';
 export default function LandingPage(){
 
 
-    const gradientVariants = {
-        animate: {
-          background: [
-            "linear-gradient(38deg, rgba(230,29,253,1) 0%, rgba(69,166,252,1) 100%)",
-            "linear-gradient(38deg, rgba(131,58,180,1) 0%, rgba(230,29,253,1) 74%, rgba(69,166,252,1) 100%)"
-          ],
-          transition: {
-            background: {
-              duration: 6,
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "linear", 
-            },
-          },
-        },
-      };
       
       
     return (

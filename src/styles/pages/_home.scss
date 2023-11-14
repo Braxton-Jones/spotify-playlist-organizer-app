@@ -1,0 +1,25 @@
+.home-dashboard{
+    max-width: 1440px;
+    margin: auto auto;
+
+    .dashboard-profile_img{
+        width: 80px;
+        border-radius: 10px;
+    }
+
+    .playlists-section{
+        h2{
+            font-size: 50px;
+        }
+
+        .playlists-grid{
+            display: grid;
+            grid-template-columns: repeat( auto-fill, minmax(170px, 1fr) );
+            grid-auto-rows: min-content;
+            gap: 20px;
+        }
+    }
+
+}
+
+// background: linear-gradient(.10turn, #285e8e, #5d5293, #86297d);

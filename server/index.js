@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const querystring = require('querystring');
 const axios = require('axios');
+const cors = require('cors')
 
 const app = express();
 const port = 8888;
@@ -11,9 +12,6 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
-app.get('/', (req, res) => {
-  res.send("Hello")
-});
 
 /**
  * Generates a random string containing numbers and letters
@@ -32,11 +30,22 @@ const generateRandomString = length => {
 
 const stateKey = 'spotify_auth_state';
 
+app.use(cors())
+
 app.get('/login', (req, res) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  const scope = "user-read-private user-library-read user-read-email playlist-modify-public playlist-modify-private ugc-image-upload playlist-read-private";
+  const scope = 
+  `user-read-private 
+   user-library-read 
+   user-read-email 
+   playlist-modify-public 
+   playlist-modify-private 
+   ugc-image-upload 
+   playlist-read-private
+   user-top-read
+   `;
 
   const queryParams = querystring.stringify({
     client_id: CLIENT_ID,

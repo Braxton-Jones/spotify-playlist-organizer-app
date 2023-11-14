@@ -3,6 +3,7 @@ import PlaylistDetails, {loader as detailsLoader} from "./layout/subpages/Playli
 import Home, {loader as homeLoader} from "./layout/pages/Home"
 import { useState, useEffect } from 'react';
 import { accessToken} from './api_auth.jsx';
+import { useLocation } from "react-router-dom";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -12,9 +13,17 @@ import {
 import ErrorPage from "./layout/pages/ErrorPage";
 import { LikedSongsContextProvider } from "./layout/AppContext";
 
+export function ScrollToTop() {
+  const { pathname } = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 const router = createBrowserRouter(
-    createRoutesFromElements(<>
+    createRoutesFromElements(<> 
     <Route 
       path="/"
       element={<Home/>}

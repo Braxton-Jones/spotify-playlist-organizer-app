@@ -78,3 +78,18 @@ export const getPlaylistDetails = async (playlistID, token) =>{
         console.log(error);
     }
 }
+
+export const getUserTopItems = async(timeRange, token) => {
+    const url = `https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}&limit=5`
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    }
+      try {
+        const response = await axios.get(url, config);
+        return response.data
+      } catch(error){
+        console.log(error)
+      }
+  }
