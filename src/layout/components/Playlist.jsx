@@ -7,6 +7,8 @@ export default function Playlist(props) {
         className={`playlist ${
           props.description.length > 70 ? "descriptive_playlist" : ""
         }`}
+        onClick={props.openModal}
+      
       >
         <div className="playlist-top-wrapper">
           <img

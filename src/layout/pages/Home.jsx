@@ -1,13 +1,13 @@
 import placeholder from "../../assets/placeholder.png";
 import { motion } from "framer-motion";
 import Playlist from "../components/Playlist";
-import { accessToken, logout } from "../../api_auth";
+import { accessToken, logout } from "../../utility/api_auth";
 import {
   getUserInfo,
   getUserPlaylists,
   getUserSavedTracks,
   getUserTopItems,
-} from "../../api_endpoints";
+} from "../../utility/api_endpoints";
 import { useState, useEffect, Suspense } from "react";
 import { useLoaderData, defer, Await } from "react-router-dom";
 import PlaylistModalPortal from "../components/PlaylistModalPortal";
@@ -30,6 +30,13 @@ export default function Home() {
   const data = useLoaderData();
   const [isOpen, setIsOpen] = useState(false);
   const [savedTracks, setSavedTracks] = useState([])
+  const [selectedPlaylist, setSelectedPLaylist]= useState()
+
+
+  const handlePlaylistClick = (id)=>{
+    setSelectedPLaylist(id)
+    setIsOpen(true)
+  }
   return (
     <>
       <button onClick={() => logout()}>Logout</button>
@@ -91,6 +98,7 @@ export default function Home() {
                                         tracksHref={playlist.tracks.href}
                                         snapshot_id={playlist.snapshot_id}
                                         description={playlist.description}
+                                        openModal={() => handlePlaylistClick(playlist.id)}
                                       />
                                     ))}
                                 </motion.div>
@@ -101,10 +109,9 @@ export default function Home() {
                         <PlaylistModalPortal
                           open={isOpen}
                           onClose={() => setIsOpen(false)}
-                          selectedPlaylistID={``}
-                        >
-                          Hmmmmm
-                        </PlaylistModalPortal>
+                          selectedPlaylistID={selectedPlaylist}
+                          savedTracks={savedTracks}
+                        />
                       </section>
                     </>
                   )}

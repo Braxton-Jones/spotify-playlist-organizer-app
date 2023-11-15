@@ -1,0 +1,15 @@
+.songs-wrapper{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #020404;
+    padding: 50px;
+    z-index: 1000;
+    max-height: 80vh; /* Set a maximum height to prevent it from taking up the entire screen */
+    overflow: auto;
+
+    .available_song{
+  
+}
+}
