@@ -11,7 +11,6 @@ import {
 } from "react-router-dom";
 import ErrorPage from "./layout/pages/ErrorPage";
 
-
 export function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -42,9 +41,5 @@ export default function App() {
     setToken(accessToken);
   }, []);
 
-  return token ? (
-      <RouterProvider router={router} />
-  ) : (
-    <LandingPage />
-  );
+  return token ? <RouterProvider router={router} /> : <LandingPage />;
 }

@@ -29,22 +29,22 @@ export async function loader() {
 export default function Home() {
   const data = useLoaderData();
   const [isOpen, setIsOpen] = useState(false);
-  const [savedTracks, setSavedTracks] = useState([])
-  const [selectedPlaylist, setSelectedPLaylist]= useState()
+  const [savedTracks, setSavedTracks] = useState([]);
+  const [selectedPlaylist, setSelectedPlaylist] = useState();
+  const [playlistImage, setPlaylistImage] = useState([]);
 
-
-  const handlePlaylistClick = (id)=>{
-    setSelectedPLaylist(id)
-    setIsOpen(true)
-  }
+  const handlePlaylistClick = (id, cover, name) => {
+    setSelectedPlaylist(id);
+    setPlaylistImage([cover, name]);
+    setIsOpen(true);
+  };
   return (
     <>
       <button onClick={() => logout()}>Logout</button>
-      <button onClick={() => setIsOpen(true)}>Open Modal</button>
       <Suspense fallback={<p>Loading Saved Tracks...</p>}>
         <Await resolve={data.savedTracks} errorElement={<p>Could'nt get it</p>}>
           {(savedTracks) => {
-            setSavedTracks(savedTracks)
+            setSavedTracks(savedTracks);
             return (
               <Suspense fallback={<p>Loading...</p>}>
                 <Await
@@ -98,7 +98,13 @@ export default function Home() {
                                         tracksHref={playlist.tracks.href}
                                         snapshot_id={playlist.snapshot_id}
                                         description={playlist.description}
-                                        openModal={() => handlePlaylistClick(playlist.id)}
+                                        openModal={() =>
+                                          handlePlaylistClick(
+                                            playlist.id,
+                                            playlist.images,
+                                            playlist.name,
+                                          )
+                                        }
                                       />
                                     ))}
                                 </motion.div>
@@ -111,6 +117,7 @@ export default function Home() {
                           onClose={() => setIsOpen(false)}
                           selectedPlaylistID={selectedPlaylist}
                           savedTracks={savedTracks}
+                          playlistImage={playlistImage}
                         />
                       </section>
                     </>
