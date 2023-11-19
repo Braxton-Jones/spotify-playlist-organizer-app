@@ -9,7 +9,7 @@ import {
   getUserTopItems,
 } from "../../utility/api_endpoints";
 import { useState, useEffect, Suspense } from "react";
-import { useLoaderData, defer, Await } from "react-router-dom";
+import { useLoaderData, defer, Await, useRevalidator } from "react-router-dom";
 import PlaylistModalPortal from "../components/PlaylistModalPortal";
 
 // const playlistDetails = await getPlaylistDetails(id, accessToken)
@@ -33,11 +33,12 @@ export default function Home() {
   const [selectedPlaylist, setSelectedPlaylist] = useState();
   const [playlistImage, setPlaylistImage] = useState([]);
 
-  const handlePlaylistClick = (id, cover, name) => {
+  const handlePlaylistClick = (id, cover, name, snapshot_id) => {
     setSelectedPlaylist(id);
-    setPlaylistImage([cover, name]);
+    setPlaylistImage([cover, name, snapshot_id]);
     setIsOpen(true);
   };
+  let revalid = useRevalidator()
   return (
     <>
       <button onClick={() => logout()}>Logout</button>
@@ -95,7 +96,6 @@ export default function Home() {
                                         id={playlist.id}
                                         images={playlist.images}
                                         trackTotal={playlist.tracks.total}
-                                        tracksHref={playlist.tracks.href}
                                         snapshot_id={playlist.snapshot_id}
                                         description={playlist.description}
                                         openModal={() =>
@@ -103,6 +103,7 @@ export default function Home() {
                                             playlist.id,
                                             playlist.images,
                                             playlist.name,
+                                            playlist.snapshot_id
                                           )
                                         }
                                       />

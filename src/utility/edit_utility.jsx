@@ -1,6 +1,6 @@
 import axios from "axios";
 export const getMatchingSongs = (playlistSongs, likedSongs) => {
-  const originalLikedSongs = likedSongs;
+  const originalLikedSongs = likedSongs.map(song => ({ ...song }));
 
   const playlistSongIDs = playlistSongs.map(
     (playlistSong) => playlistSong.track.id,
@@ -16,6 +16,8 @@ export const getMatchingSongs = (playlistSongs, likedSongs) => {
   return matchingSongs;
 };
 
+
+
 export const addSongToPlaylist = (id, accessToken, uri) => {
   const token = accessToken;
   const url = `https://api.spotify.com/v1/playlists/${id}/tracks`;
@@ -30,14 +32,21 @@ export const addSongToPlaylist = (id, accessToken, uri) => {
     position: 0,
   };
 
-  axios
-    .post(url, data, { headers })
-    .then((response) => {
-      console.log("Response:", response.data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  // Return a Promise
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, data, { headers })
+      .then((response) => {
+        console.log("Response from Adding:", response.data);
+        // Resolve the Promise with the response data
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Reject the Promise with the error
+        reject(error);
+      });
+  });
 };
 
 export const removeSongFromPlaylist = (id, accessToken, uri, snapshot_id) => {
@@ -61,7 +70,7 @@ export const removeSongFromPlaylist = (id, accessToken, uri, snapshot_id) => {
   axios
     .delete(url, { headers, data })
     .then((response) => {
-      console.log("Response:", response.data);
+      console.log("Response from removing:", response.data);
     })
     .catch((error) => {
       console.error("Error:", error);

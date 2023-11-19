@@ -26,6 +26,10 @@ export default function PlaylistModalPortal({
 }) {
   if (!open) return null;
   const playlistSongs = getPlaylistDetails(selectedPlaylistID, accessToken);
+  const [toggleStates, setToggleStates] = useState([]);
+  const [snapshot, setSnapshot] =useState(playlistImage[2])
+
+
 
   return ReactDom.createPortal(
     <>
@@ -55,13 +59,17 @@ export default function PlaylistModalPortal({
             errorElement={<p>Error Getting Songs...</p>}
           >
             {(songs) => {
-              const songsList = getMatchingSongs(songs.items, savedTracks);
-              //  setPlaylistImage([song])
-              console.log("heh",songsList);
+              console.log("songs from ply", songs)
+              const songsList = getMatchingSongs(songs.items, [...savedTracks]);
+              const matched = songsList.filter(obj => obj.hasOwnProperty('inPlaylist'))
+              console.log("savedTracks", savedTracks)
+              console.log("matched AOO", songsList)
+              console.log(matched.length, "matched songs")
+              
               return (
                 <>
                   <section className="song-container">
-                    {songsList.map((song) => (
+                    {songsList.map((song, index) => (
                       <div className="song">
                         <div
                           className="song-image"
@@ -88,20 +96,27 @@ export default function PlaylistModalPortal({
                           </p>
                         </div>
                         <button
-                          className={`add-button ${
-                            song.inPlaylist ? "remove" : "add"
-                          }`}
+                          className={`add-button ${toggleStates[index] ? "remove" : "add"}`}
+                          onClick={() => {
+                            const newToggleStates = [...toggleStates];
+                            newToggleStates[index] = !newToggleStates[index];
+                            setToggleStates(newToggleStates);
+                            console.log(playlistImage[2])
+
+                            if (toggleStates[index]) {
+                              removeSongFromPlaylist(selectedPlaylistID, accessToken, song.track.uri, snapshot);
+                            } else {
+                              addSongToPlaylist(selectedPlaylistID, accessToken, song.track.uri)
+                                .then((response) => {
+                                  setSnapshot(response.snapshot_id)
+                                })
+                                .catch((error)=>{
+                                  console.log(error)
+                                })
+                            }
+                          }}
                         >
-                          <img 
-                            src={icon} 
-                            style={{ width: "30px" }}
-                            onClick={() => {
-                              if (song.inPlaylist) {
-                                removeSongFromPlaylist(selectedPlaylistID, accessToken, song.track.uri, snapshot_id);
-                              } else {
-                                addSongToPlaylist(selectedPlaylistID, accessToken, song.track.uri);
-                              }
-                            }} />
+                          <img src={icon} style={{ width: "30px" }} />
                         </button>
                       </div>
                     ))}
