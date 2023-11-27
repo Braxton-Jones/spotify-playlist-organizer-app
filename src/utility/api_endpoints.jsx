@@ -31,8 +31,8 @@ export const getUserPlaylists = async (token) => {
 };
 
 export const getUserSavedTracks = async (token) => {
-  const limit = 50; // Set the desired limit value
-  let offset = 0; // Set the initial offset value
+  const limit = 50;
+  let offset = 0;
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -50,12 +50,12 @@ export const getUserSavedTracks = async (token) => {
       );
       const { items, total } = response.data;
 
-      allTracks = allTracks.concat(items); // Process the response data
+      allTracks = allTracks.concat(items);
 
       if (allTracks.length >= total) {
-        hasMoreTracks = false; // Exit the loop if all tracks have been retrieved
+        hasMoreTracks = false;
       } else {
-        offset += limit; // Increment the offset for the next request
+        offset += limit;
       }
     }
 

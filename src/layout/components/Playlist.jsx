@@ -1,33 +1,38 @@
 import placeholder from "../../assets/placeholder.png";
 import he from "he";
+import { motion } from "framer-motion";
 export default function Playlist(props) {
   return (
     <>
-      <section
+      <motion.section
+        whileTap={{scale: 0.99, opacity: 0.90}}
         className={`playlist ${
-          props.description.length > 70 ? "descriptive_playlist" : ""
+          props.description.length > 150 ? "descriptive" : ""
         }`}
         onClick={props.openModal}
       >
-        <div className="playlist-top-wrapper">
+        <div className="playlist-top">
           <img
             src={props.images[0]?.url || placeholder}
             className="playlist-cover"
+            alt="Playlist Cover"
           />
-          <div className="playlist-wrapper">
+          <div className="playlist-details">
             <p className="playlist-name">{props.name}</p>
-            <p className="playlist-track-count">{props.trackTotal} Tracks</p>
+            <p className="playlist-track-count">
+              {props.trackTotal} Track{props.trackTotal !== 1 ? "s" : ""}
+            </p>
           </div>
         </div>
-        <div className="playlist-bottom-wrapper">
-          <p className="playlist-desc">
+        <div className="playlist-bottom">
+          <p className="playlist-description">
             {props.description
               ? he.decode(props.description.slice(0, 200)) +
                 (props.description.length > 200 ? " ..." : "")
-              : "no playlist description ~~~ "}
+              : "No playlist description ~~~"}
           </p>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 }

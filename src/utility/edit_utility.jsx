@@ -1,6 +1,6 @@
 import axios from "axios";
 export const getMatchingSongs = (playlistSongs, likedSongs) => {
-  const originalLikedSongs = likedSongs.map(song => ({ ...song }));
+  const originalLikedSongs = likedSongs.map((song) => ({ ...song }));
 
   const playlistSongIDs = playlistSongs.map(
     (playlistSong) => playlistSong.track.id,
@@ -16,8 +16,6 @@ export const getMatchingSongs = (playlistSongs, likedSongs) => {
   return matchingSongs;
 };
 
-
-
 export const addSongToPlaylist = (id, accessToken, uri) => {
   const token = accessToken;
   const url = `https://api.spotify.com/v1/playlists/${id}/tracks`;
@@ -32,18 +30,15 @@ export const addSongToPlaylist = (id, accessToken, uri) => {
     position: 0,
   };
 
-  // Return a Promise
   return new Promise((resolve, reject) => {
     axios
       .post(url, data, { headers })
       .then((response) => {
         console.log("Response from Adding:", response.data);
-        // Resolve the Promise with the response data
         resolve(response.data);
       })
       .catch((error) => {
         console.error("Error:", error);
-        // Reject the Promise with the error
         reject(error);
       });
   });

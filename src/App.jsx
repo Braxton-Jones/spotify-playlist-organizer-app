@@ -11,15 +11,6 @@ import {
 } from "react-router-dom";
 import ErrorPage from "./layout/pages/ErrorPage";
 
-export function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-}
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
