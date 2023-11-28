@@ -1,31 +1,29 @@
-import axios from "axios";
-
-// Define keys for storing and retrieving values in local storage
+// Map for localStorage keys
 const LOCALSTORAGE_KEYS = {
-  accessToken: "spotify_access_token", // Key for the Spotify access token
-  refreshToken: "spotify_refresh_token", // Key for the Spotify refresh token
-  expireTime: "spotify_token_expire_time", // Key for the token expiration time
-  timestamp: "spotify_token_timestamp", // Key for the timestamp of the last token update
+  accessToken: "spotify_access_token",
+  refreshToken: "spotify_refresh_token",
+  expireTime: "spotify_token_expire_time",
+  timestamp: "spotify_token_timestamp",
 };
 
-// Retrieve values from local storage using the keys defined above
+// Map to retrieve localStorage values
 const LOCALSTORAGE_VALUES = {
-  accessToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.accessToken), // Get the access token from local storage
-  refreshToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.refreshToken), // Get the refresh token from local storage
-  expireTime: window.localStorage.getItem(LOCALSTORAGE_KEYS.expireTime), // Get the token expiration time from local storage
-  timestamp: window.localStorage.getItem(LOCALSTORAGE_KEYS.timestamp), // Get the timestamp of the last token update from local storage
+  accessToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.accessToken),
+  refreshToken: window.localStorage.getItem(LOCALSTORAGE_KEYS.refreshToken),
+  expireTime: window.localStorage.getItem(LOCALSTORAGE_KEYS.expireTime),
+  timestamp: window.localStorage.getItem(LOCALSTORAGE_KEYS.timestamp),
 };
 
 /**
- * Function to clear all stored items in local storage and reload the page
+ * Clear out all localStorage items we've set and reload the page
  * @returns {void}
  */
 export const logout = () => {
-  // Clear all items in local storage using the keys defined in LOCALSTORAGE_KEYS
+  // Clear all localStorage items
   for (const property in LOCALSTORAGE_KEYS) {
     window.localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
   }
-  // Navigate to the homepage
+  // Navigate to homepage
   window.location = window.location.origin;
 };
 
@@ -45,12 +43,11 @@ const refreshToken = async () => {
       console.error("No refresh token available");
       logout();
     }
-    console.log("Refresh_Token", LOCALSTORAGE_VALUES.refreshToken);
+
     // Use `/refresh_token` endpoint from our Node app
     const { data } = await axios.get(
-      `http://localhost:8888/refresh_token?refresh_token=${LOCALSTORAGE_VALUES.refreshToken}`,
+      `/refresh_token?refresh_token=${LOCALSTORAGE_VALUES.refreshToken}`,
     );
-    console.log("New Token", data);
 
     // Update localStorage values
     window.localStorage.setItem(
@@ -67,8 +64,9 @@ const refreshToken = async () => {
 };
 
 /**
- * Function to check if the access token in local storage has expired
- * @returns {boolean} Whether the access token has expired
+ * Checks if the amount of time that has elapsed between the timestamp in localStorage
+ * and now is greater than the expiration time of 3600 seconds (1 hour).
+ * @returns {boolean} Whether or not the access token in localStorage has expired
  */
 const hasTokenExpired = () => {
   const { accessToken, timestamp, expireTime } = LOCALSTORAGE_VALUES;
@@ -76,9 +74,7 @@ const hasTokenExpired = () => {
     return false;
   }
   const millisecondsElapsed = Date.now() - Number(timestamp);
-  const isExpired = millisecondsElapsed / 1000 > Number(expireTime);
-  console.log("Token is expired:", isExpired);
-  return isExpired;
+  return millisecondsElapsed / 1000 > Number(expireTime);
 };
 
 /**
@@ -129,5 +125,4 @@ const getAccessToken = () => {
   return false;
 };
 
-// Export the access token value obtained from the getAccessToken function
 export const accessToken = getAccessToken();

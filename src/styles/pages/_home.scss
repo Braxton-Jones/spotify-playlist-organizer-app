@@ -65,12 +65,72 @@
 
     .stats-and-saved-tracks{
         margin-inline: 20px;
-        font-size: 32px;
+        font-size: 28px;
+        padding-top: 10px;
+        line-height: 30px;
+        
         .user-stats{
+            display: flex;
+            gap: 20px;
+            align-content: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid white;
+            
+            
             .user-stats_top-artist{
                 display: flex;
-                align-items: center;
+                flex-direction: column;
                 gap: 10px;
+                span{
+                    letter-spacing: 2px;
+                }
+            }
+            .user-stats_other-artists {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+              
+                .honorable-mentions {
+                  display: flex;
+                  gap: 15px;
+                  position: relative;
+                }
+              
+                .honorable-mentions:hover > .honorable-mentions_name {
+                  display: block;
+                }
+              
+                .honorable-mentions_name {
+                  font-size: 15px;
+                  position: relative;
+                  top: 100%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  background-color: rgba($color: #9b9b9b, $alpha: .7);
+                  padding: 2px;
+                  border-radius: 10px;
+                  width: max-content;
+                  display: none;
+                }
+              }
+              
+              
+        }
+        .user-saved-tracks{
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            height: 83vh;
+            overflow-y: scroll;
+            padding-top: 20px;
+            
+            .saved-track{
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                .addbtn{
+                    margin-left: auto;
+                }
             }
         }
     }

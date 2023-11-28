@@ -1,0 +1,57 @@
+
+
+.playlist-edit{
+    overflow: hidden;
+    .playlist-edit_info{
+        font-size: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    
+        button{
+            font-size: 20px;
+            border: none;
+            background-color: rgba($color: #f8f7f7e0, $alpha: 0.8);
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+            
+        }
+    
+        
+    }
+    
+    .track-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 75vh;
+        overflow-y: scroll;
+    }
+    .playlist-track{
+        display: flex;
+        align-items: center;
+        gap: 80px;
+        .playlist-track_details{
+            font-size: 25px;
+            letter-spacing: 2px;
+    
+        }
+        .remove-btn{
+            margin-left: auto;
+            font-size: 18px;
+            background-color: rgba($color: #f8f7f7e0, $alpha: 0.8);
+            border: none;
+            color: black;
+            border-radius: 5px;
+            padding: 5px;
+            width: 80px;
+            cursor: pointer;
+    
+            &:hover{
+                background-color: rgba($color: #f8f7f7e0, $alpha: 1);
+            }
+    
+        }
+    }
+}

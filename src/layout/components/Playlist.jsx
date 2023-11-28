@@ -5,11 +5,11 @@ export default function Playlist(props) {
   return (
     <>
       <motion.section
-        whileTap={{scale: 0.99, opacity: 0.90}}
+        whileTap={{ scale: 0.99, opacity: 0.9 }}
         className={`playlist ${
           props.description.length > 150 ? "descriptive" : ""
         }`}
-        onClick={props.openModal}
+        onClick={props.onPlaylistClick}
       >
         <div className="playlist-top">
           <img
