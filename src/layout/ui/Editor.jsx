@@ -18,17 +18,23 @@ export default function Editor(props) {
       getPlaylistDetails(playlistID, accessToken),
     );
 
+    const playlistCoverPromises = playlistIDs.map((playlistID) =>
+    getPlaylistCover(playlistID, accessToken),
+  );
+
     const playlistDataPromises = playlistIDs.map((playlistID) =>
       getPlaylist(playlistID, accessToken),
     );
     try {
       const playlistDetails = await Promise.all(playlistDetailsPromises);
+      const playlistCovers = await Promise.all(playlistCoverPromises)
       const playlistData = await Promise.all(playlistDataPromises);
 
       // Combine playlistDetails and playlistCovers into an array of objects
       const aggregatedPlaylists = playlistDetails.map((details, i) => ({
         details,
         data: playlistData[i],
+        playlistCovers
       }));
 
       return aggregatedPlaylists;
@@ -84,11 +90,10 @@ export default function Editor(props) {
                 <div className={styles.matches_container}>
                   {data.matches.map((match, index) => (
                     <div key={index} className={styles.match_item}>
-                      <p>Song is on playlist '{match.matchedPlaylistName}'</p>
                       <div
                         style={{
-                          width: "30px",
-                          height: "30px",
+                          width: "50px",
+                          height: "50px",
                           borderRadius: "10px",
                           backgroundImage: `url(${match.matchedPlaylistCover}`,
                           backgroundPosition: "center",

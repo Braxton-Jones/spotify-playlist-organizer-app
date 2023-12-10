@@ -99,7 +99,7 @@ export const aggregatePlaylistsTracks = async (playlistIDs) => {
   }
 };
 
-export const generateAggregatedTracksList = (savedTracks, Playlists) => {
+export const generateAggregatedTracksList = (savedTracks, Playlists, selectedPlaylists) => {
   const TrackList = [...savedTracks]; // Copy savedTracks to TrackList
 
   Playlists.forEach((playlist) => {
@@ -126,6 +126,9 @@ export const generateAggregatedTracksList = (savedTracks, Playlists) => {
             matchedPlaylistCover: playlist.data.images[0].url,
           });
         }
+
+        // Add selectedPlaylists to the track
+        matchingTrack.selectedPlaylists = selectedPlaylists;
       } else {
         // If there is no match, add the new property directly to the original object
         TrackList.push({
@@ -136,6 +139,8 @@ export const generateAggregatedTracksList = (savedTracks, Playlists) => {
               matchedPlaylistCover: playlist.data.images[0].url,
             },
           ],
+          // Add selectedPlaylists to the track
+          selectedPlaylists: selectedPlaylists,
         });
       }
     });
@@ -156,3 +161,4 @@ export const generateAggregatedTracksList = (savedTracks, Playlists) => {
 
   return TrackList;
 };
+
