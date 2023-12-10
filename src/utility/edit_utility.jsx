@@ -1,4 +1,7 @@
 import axios from "axios";
+import { getPlaylist, getPlaylistDetails } from "./api_endpoints";
+import { getPlaylistCover } from "./api_endpoints";
+import { accessToken } from "./api_auth";
 export const getMatchingSongs = (playlistSongs, likedSongs) => {
   const originalLikedSongs = likedSongs.map((song) => ({ ...song }));
 
@@ -16,7 +19,7 @@ export const getMatchingSongs = (playlistSongs, likedSongs) => {
   return matchingSongs;
 };
 
-export const addSongToPlaylist = (id, accessToken, uri) => {
+export const addSongToPlaylist = (id, uri) => {
   const token = accessToken;
   const url = `https://api.spotify.com/v1/playlists/${id}/tracks`;
 
@@ -70,4 +73,40 @@ export const removeSongFromPlaylist = (id, accessToken, uri, snapshot_id) => {
     .catch((error) => {
       console.error("Error:", error);
     });
+};
+
+export const aggregatePlaylistsTracks = async (playlistIDs) => {
+  const playlistDetailsPromises = playlistIDs.map((playlistID) =>
+    getPlaylistDetails(playlistID, accessToken),
+  );
+  const playlistCoversPromises = playlistIDs.map((playlistID) =>
+    getPlaylistCover(playlistID, accessToken),
+  );
+  const playlistDataPromises = playlistIDs.map((playlistID) =>
+    getPlaylist(playlistID, accessToken),
+  );
+  try {
+    const playlistDetails = await Promise.all(playlistDetailsPromises);
+    const playlistCovers = await Promise.all(playlistCoversPromises);
+    const playlistData = await Promise.all(playlistDataPromises);
+
+    // Combine playlistDetails and playlistCovers into an array of objects
+    const aggregatedPlaylists = playlistDetails.map((details, i) => ({
+      details,
+      coverURL: playlistCovers[i],
+      data: playlistData[i],
+    }));
+
+    return aggregatedPlaylists;
+  } catch (error) {
+    console.error("Error fetching playlist details:", error);
+    throw error;
+  }
+};
+
+export const generateAggregatedTracksList = (savedTracks, Playlists) => {
+  const TrackList = [];
+  TrackList.push(savedTracks)
+  console.log("in function", Playlists)
+  return TrackList;
 };

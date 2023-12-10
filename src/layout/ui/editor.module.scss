@@ -1,0 +1,32 @@
+@import './variables.module.scss';
+
+.editor{
+    height: 100%;
+
+    .editor_header{
+        border: 2px solid #f4f4f4;
+        border-radius:10px;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 15px;
+    }
+    .editor_filters{
+        border: 2px dashed #f4f4f4;
+        border-radius:10px;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 1fr .25fr .75fr;
+        gap: 30px;
+        align-items: center;
+        margin-bottom: 15px;
+    
+    }
+    
+    .editor_grid{
+        background-color: $tropical-indigo;
+        height: 81vh;
+        border-radius: 10px;
+        overflow-y: scroll;
+    }
+}

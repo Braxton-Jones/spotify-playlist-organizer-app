@@ -8,9 +8,9 @@ import { useRevalidator } from "react-router-dom";
 
 export default function PlaylistEdit(props) {
   console.log("deatils", props.details);
-  let revalidator = useRevalidator()
+  let revalidator = useRevalidator();
   const playlistTracks = getPlaylistDetails(props.details.id, accessToken);
- 
+
   return (
     <section className="playlist-edit">
       <section className="playlist-edit_info">
@@ -33,10 +33,10 @@ export default function PlaylistEdit(props) {
         <Await resolve={playlistTracks} errorElement={<p>Error!</p>}>
           {(tracksInfo) => {
             console.log(tracksInfo);
-            if(tracksInfo){
-              props.setPlaylistTracks(tracksInfo)
+            if (tracksInfo) {
+              props.setPlaylistTracks(tracksInfo);
             }
-            
+
             return (
               <>
                 <div className="track-wrapper">
@@ -61,12 +61,13 @@ export default function PlaylistEdit(props) {
                         className="remove-btn"
                         onClick={() => {
                           removeSongFromPlaylist(
-                              props.details.id, 
-                              accessToken, 
-                              data.track.uri, 
-                              props.details.snapshot_id)
-                          revalidator.revalidate()
-                            }}
+                            props.details.id,
+                            accessToken,
+                            data.track.uri,
+                            props.details.snapshot_id,
+                          );
+                          revalidator.revalidate();
+                        }}
                       >
                         Remove
                       </button>

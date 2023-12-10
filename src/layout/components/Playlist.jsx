@@ -1,36 +1,30 @@
 import placeholder from "../../assets/placeholder.png";
-import he from "he";
 import { motion } from "framer-motion";
 export default function Playlist(props) {
   return (
     <>
       <motion.section
-        whileTap={{ scale: 0.99, opacity: 0.9 }}
-        className={`playlist ${
-          props.description.length > 150 ? "descriptive" : ""
-        }`}
-        onClick={props.onPlaylistClick}
+        whileTap={{ scale: 0.99, opacity: 0.8 }}
+        style={{
+          backgroundColor: "white",
+          borderRadius: "10px",
+          backgroundImage: `url(${props.playlist.images[0].url}`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+        onClick={() => {
+          props.handleSelectToggle();
+        }}
       >
-        <div className="playlist-top">
-          <img
-            src={props.images[0]?.url || placeholder}
-            className="playlist-cover"
-            alt="Playlist Cover"
-          />
+        <div
+          className={`overlay ${
+            props.selectedPlaylists.includes(props.playlist.id) ? "" : "toggled"
+          }`}
+        >
           <div className="playlist-details">
-            <p className="playlist-name">{props.name}</p>
-            <p className="playlist-track-count">
-              {props.trackTotal} Track{props.trackTotal !== 1 ? "s" : ""}
-            </p>
+            <h3>{props.playlist.name}</h3>
+            <p>{props.playlist.tracks.total} tracks</p>
           </div>
-        </div>
-        <div className="playlist-bottom">
-          <p className="playlist-description">
-            {props.description
-              ? he.decode(props.description.slice(0, 200)) +
-                (props.description.length > 200 ? " ..." : "")
-              : "No playlist description ~~~"}
-          </p>
         </div>
       </motion.section>
     </>

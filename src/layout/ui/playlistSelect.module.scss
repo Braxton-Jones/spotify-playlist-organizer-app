@@ -1,0 +1,26 @@
+@import "./variables.module.scss";
+.playlist_select{
+    height: 100%;
+}
+.playlist_grid{
+    background-color: $tropical-indigo;
+    height: 75vh;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-auto-rows: 225px;
+    gap: 10px;
+    padding: 30px 15px;
+    overflow-y:scroll ;
+    
+
+}
+
+.playlist_header{
+    border: 2px solid #f4f4f4;
+    border-radius:10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}

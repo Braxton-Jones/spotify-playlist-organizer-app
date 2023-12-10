@@ -1,0 +1,25 @@
+@import "./variables.module.scss";
+.header{
+    padding: 10px 100px;
+    background-color: $tropical-indigo;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+
+    .logo{
+        font-size: 20px;
+    }
+
+    .icons_wrapper{
+        display: flex;
+        gap: 10px;
+        .icon{
+            width: 40px;
+            height: 40px;
+            background-color: $timberwolf;
+            border-radius: 10px;
+        }
+    }
+}
