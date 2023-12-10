@@ -79,21 +79,16 @@ export const aggregatePlaylistsTracks = async (playlistIDs) => {
   const playlistDetailsPromises = playlistIDs.map((playlistID) =>
     getPlaylistDetails(playlistID, accessToken),
   );
-  const playlistCoversPromises = playlistIDs.map((playlistID) =>
-    getPlaylistCover(playlistID, accessToken),
-  );
   const playlistDataPromises = playlistIDs.map((playlistID) =>
     getPlaylist(playlistID, accessToken),
   );
   try {
     const playlistDetails = await Promise.all(playlistDetailsPromises);
-    const playlistCovers = await Promise.all(playlistCoversPromises);
     const playlistData = await Promise.all(playlistDataPromises);
 
     // Combine playlistDetails and playlistCovers into an array of objects
     const aggregatedPlaylists = playlistDetails.map((details, i) => ({
       details,
-      coverURL: playlistCovers[i],
       data: playlistData[i],
     }));
 
@@ -105,8 +100,59 @@ export const aggregatePlaylistsTracks = async (playlistIDs) => {
 };
 
 export const generateAggregatedTracksList = (savedTracks, Playlists) => {
-  const TrackList = [];
-  TrackList.push(savedTracks)
-  console.log("in function", Playlists)
+  const TrackList = [...savedTracks]; // Copy savedTracks to TrackList
+
+  Playlists.forEach((playlist) => {
+    playlist.details.forEach((track) => {
+      const matchingTrack = TrackList.find(
+        (savedTrack) => savedTrack.track.id === track.track.id,
+      );
+
+      if (matchingTrack) {
+        // If there is a match, check if the matches property exists
+        // If not, create it as an array
+        if (!matchingTrack.matches) {
+          matchingTrack.matches = [];
+        }
+
+        // Check if there is no duplicate match with the same playlist name
+        const isDuplicate = matchingTrack.matches.some(
+          (match) => match.matchedPlaylistName === playlist.data.name,
+        );
+
+        if (!isDuplicate) {
+          matchingTrack.matches.push({
+            matchedPlaylistName: playlist.data.name,
+            matchedPlaylistCover: playlist.data.images[0].url,
+          });
+        }
+      } else {
+        // If there is no match, add the new property directly to the original object
+        TrackList.push({
+          ...track,
+          matches: [
+            {
+              matchedPlaylistName: playlist.data.name,
+              matchedPlaylistCover: playlist.data.images[0].url,
+            },
+          ],
+        });
+      }
+    });
+  });
+
+  // Remove matches that don't exist in Playlists
+  TrackList.forEach((track) => {
+    if (track.matches) {
+      track.matches = track.matches.filter((match) =>
+        Playlists.some(
+          (playlist) =>
+            playlist.data.name === match.matchedPlaylistName &&
+            playlist.data.images[0].url === match.matchedPlaylistCover,
+        ),
+      );
+    }
+  });
+
   return TrackList;
 };
