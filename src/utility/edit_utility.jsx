@@ -75,31 +75,11 @@ export const removeSongFromPlaylist = (id, accessToken, uri, snapshot_id) => {
     });
 };
 
-export const aggregatePlaylistsTracks = async (playlistIDs) => {
-  const playlistDetailsPromises = playlistIDs.map((playlistID) =>
-    getPlaylistDetails(playlistID, accessToken),
-  );
-  const playlistDataPromises = playlistIDs.map((playlistID) =>
-    getPlaylist(playlistID, accessToken),
-  );
-  try {
-    const playlistDetails = await Promise.all(playlistDetailsPromises);
-    const playlistData = await Promise.all(playlistDataPromises);
-
-    // Combine playlistDetails and playlistCovers into an array of objects
-    const aggregatedPlaylists = playlistDetails.map((details, i) => ({
-      details,
-      data: playlistData[i],
-    }));
-
-    return aggregatedPlaylists;
-  } catch (error) {
-    console.error("Error fetching playlist details:", error);
-    throw error;
-  }
-};
-
-export const generateAggregatedTracksList = (savedTracks, Playlists, selectedPlaylists) => {
+export const generateAggregatedTracksList = (
+  savedTracks,
+  Playlists,
+  selectedPlaylists,
+) => {
   const TrackList = [...savedTracks]; // Copy savedTracks to TrackList
 
   Playlists.forEach((playlist) => {
@@ -126,9 +106,6 @@ export const generateAggregatedTracksList = (savedTracks, Playlists, selectedPla
             matchedPlaylistCover: playlist.data.images[0].url,
           });
         }
-
-        // Add selectedPlaylists to the track
-        matchingTrack.selectedPlaylists = selectedPlaylists;
       } else {
         // If there is no match, add the new property directly to the original object
         TrackList.push({
@@ -161,4 +138,3 @@ export const generateAggregatedTracksList = (savedTracks, Playlists, selectedPla
 
   return TrackList;
 };
-

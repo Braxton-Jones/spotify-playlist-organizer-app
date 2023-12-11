@@ -49,6 +49,8 @@
 
         .track_matches{
             margin-left: auto;
+            display: flex;
+            gap: 10px;
 
             .matches_container{
                 display: flex;
@@ -64,4 +66,12 @@
 
 
     }
+}
+
+.matched_playlist{
+    filter: grayscale(0%);
+}
+
+.unmatched_playlist{
+    filter: grayscale(100%);
 }
